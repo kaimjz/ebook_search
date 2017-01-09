@@ -32,13 +32,18 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lblRemark = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.cbxType = new System.Windows.Forms.ComboBox();
-            this.lblTemplate = new System.Windows.Forms.Label();
-            this.lblSavePath = new System.Windows.Forms.Label();
+            this.cbxType1 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tbxSavePath = new System.Windows.Forms.TextBox();
             this.btnStart = new System.Windows.Forms.Button();
+            this.label33 = new System.Windows.Forms.Label();
+            this.cbxType2 = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbxReadPath = new System.Windows.Forms.TextBox();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
@@ -57,10 +62,12 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.btnStart);
+            this.tabPage1.Controls.Add(this.tbxReadPath);
+            this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.tbxSavePath);
-            this.tabPage1.Controls.Add(this.lblSavePath);
-            this.tabPage1.Controls.Add(this.lblTemplate);
-            this.tabPage1.Controls.Add(this.cbxType);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.cbxType1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -74,12 +81,14 @@
             this.lblRemark.AutoSize = true;
             this.lblRemark.Location = new System.Drawing.Point(3, 247);
             this.lblRemark.Name = "lblRemark";
-            this.lblRemark.Size = new System.Drawing.Size(65, 12);
+            this.lblRemark.Size = new System.Drawing.Size(41, 12);
             this.lblRemark.TabIndex = 1;
-            this.lblRemark.Text = "自制小工具";
+            this.lblRemark.Text = "小工具";
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label33);
+            this.tabPage2.Controls.Add(this.cbxType2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(473, 215);
@@ -87,54 +96,91 @@
             this.tabPage2.Text = "配置XML";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // cbxType
+            // cbxType1
             // 
-            this.cbxType.FormattingEnabled = true;
-            this.cbxType.Items.AddRange(new object[] {
+            this.cbxType1.FormattingEnabled = true;
+            this.cbxType1.Items.AddRange(new object[] {
             "1",
             "2",
             "3"});
-            this.cbxType.Location = new System.Drawing.Point(109, 30);
-            this.cbxType.Name = "cbxType";
-            this.cbxType.Size = new System.Drawing.Size(96, 20);
-            this.cbxType.TabIndex = 0;
+            this.cbxType1.Location = new System.Drawing.Point(109, 30);
+            this.cbxType1.Name = "cbxType1";
+            this.cbxType1.Size = new System.Drawing.Size(140, 20);
+            this.cbxType1.TabIndex = 0;
             // 
-            // lblTemplate
+            // label1
             // 
-            this.lblTemplate.AutoSize = true;
-            this.lblTemplate.Location = new System.Drawing.Point(29, 33);
-            this.lblTemplate.Name = "lblTemplate";
-            this.lblTemplate.Size = new System.Drawing.Size(59, 12);
-            this.lblTemplate.TabIndex = 2;
-            this.lblTemplate.Text = "爬虫模板:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(29, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 12);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "爬虫模板:";
             // 
-            // lblSavePath
+            // label2
             // 
-            this.lblSavePath.AutoSize = true;
-            this.lblSavePath.Location = new System.Drawing.Point(31, 71);
-            this.lblSavePath.Name = "lblSavePath";
-            this.lblSavePath.Size = new System.Drawing.Size(59, 12);
-            this.lblSavePath.TabIndex = 3;
-            this.lblSavePath.Text = "保存地址:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(31, 113);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 12);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "保存地址:";
             // 
             // tbxSavePath
             // 
-            this.tbxSavePath.Location = new System.Drawing.Point(109, 68);
+            this.tbxSavePath.Location = new System.Drawing.Point(109, 110);
             this.tbxSavePath.Name = "tbxSavePath";
-            this.tbxSavePath.Size = new System.Drawing.Size(207, 21);
+            this.tbxSavePath.Size = new System.Drawing.Size(299, 21);
             this.tbxSavePath.TabIndex = 4;
             this.tbxSavePath.Click += new System.EventHandler(this.tbxSavePath_Click);
             // 
             // btnStart
             // 
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStart.Location = new System.Drawing.Point(174, 140);
+            this.btnStart.Location = new System.Drawing.Point(174, 148);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 5;
             this.btnStart.Text = "开始";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(50, 35);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(59, 12);
+            this.label33.TabIndex = 4;
+            this.label33.Text = "爬虫模板:";
+            // 
+            // cbxType2
+            // 
+            this.cbxType2.FormattingEnabled = true;
+            this.cbxType2.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3"});
+            this.cbxType2.Location = new System.Drawing.Point(130, 32);
+            this.cbxType2.Name = "cbxType2";
+            this.cbxType2.Size = new System.Drawing.Size(96, 20);
+            this.cbxType2.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(31, 73);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 12);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "读取地址:";
+            // 
+            // tbxReadPath
+            // 
+            this.tbxReadPath.Location = new System.Drawing.Point(109, 70);
+            this.tbxReadPath.Name = "tbxReadPath";
+            this.tbxReadPath.Size = new System.Drawing.Size(299, 21);
+            this.tbxReadPath.TabIndex = 4;
             // 
             // MainForm
             // 
@@ -152,6 +198,8 @@
             this.tabMain.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,11 +211,15 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label lblRemark;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ComboBox cbxType;
-        private System.Windows.Forms.Label lblSavePath;
-        private System.Windows.Forms.Label lblTemplate;
+        private System.Windows.Forms.ComboBox cbxType1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbxSavePath;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.ComboBox cbxType2;
+        private System.Windows.Forms.TextBox tbxReadPath;
+        private System.Windows.Forms.Label label3;
     }
 }
 
