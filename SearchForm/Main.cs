@@ -4,6 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
+using DotNet.Utilities;
 
 namespace SearchForm
 {
@@ -13,7 +15,7 @@ namespace SearchForm
 
         private Point _Point;//窗体拖动位置
 
-        private Dictionary<string, string> _TemplateDic;//模板文件
+        private Dictionary<string, string> _TemplateDict;//模板文件
 
         private string _TemplateDir;//模板文件路径
 
@@ -28,12 +30,12 @@ namespace SearchForm
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _TemplateDic = GetTemplateList();//获取模板集合
+            _TemplateDict = GetTemplateList();//获取模板集合
             this.cbxType1.Items.Clear();
             this.cbxType2.Items.Clear();
-            if (_TemplateDic != null && _TemplateDic.Count > 0)
+            if (_TemplateDict != null && _TemplateDict.Count > 0)
             {
-                foreach (var item in _TemplateDic)
+                foreach (var item in _TemplateDict)
                 {
                     this.cbxType1.Items.Add(item.Key);
                     this.cbxType2.Items.Add(item.Key);
@@ -129,5 +131,27 @@ namespace SearchForm
         }
 
         #endregion 获取模板集合
+
+        /*********************************tab页2*******************************/
+
+        private void btn_Add_Click(object sender, EventArgs e)
+        {
+            if (this.tbxName.Text.Trim() == "" || this.tbxValue.Text.Trim() == "")
+            {
+                MessageBox.Show("请输入要添加的节点名或值!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            XmlHelper xhelp = new XmlHelper(_TemplateDict[this.cbxType2.Text]);
+//xhelp.InsertNode()
+        }
+
+        private void btnDel_Click(object sender, EventArgs e)
+        {
+            if (this.tbxName.Text.Trim() == "")
+            {
+                MessageBox.Show("请输入要删除的节点名!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+        }
     }
 }

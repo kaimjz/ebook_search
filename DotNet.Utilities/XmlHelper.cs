@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections;
+using System.IO;
+using System.Text;
 using System.Xml;
 
 namespace DotNet.Utilities
@@ -18,7 +21,7 @@ namespace DotNet.Utilities
         private XmlDocument XmlDoc { get; set; }
 
         /// <summary>
-        /// xml根节点
+        /// xml节点
         /// </summary>
         private XmlElement XmlElement { get; set; }
 
@@ -26,17 +29,218 @@ namespace DotNet.Utilities
 
         #region 构造方法
 
+        //public XmlHelper()
+        //{
+        //}
+
         /// <summary>
         /// 实例化XmlHelper对象
         /// </summary>
         /// <param name="xmlFilePath">Xml文件的物理路径</param>
-        public XmlHelper(string xmlFilePath)
+        /// <param name="isCreateXmlDoc">是否创建xml对象</param>
+        public XmlHelper(string xmlFilePath, bool isCreateXmlDoc = true)
         {
             XmlFilePath = xmlFilePath;
-            CreateXmlElement();
+            if (isCreateXmlDoc)
+            {
+                CreateXmlElement();
+            }
         }
 
         #endregion 构造方法
+
+        #region 创建Xml文档
+
+        /// <summary>
+        /// 创建一个带有根节点的Xml文件
+        /// </summary>
+        /// <paramname="rootName">根节点名称</param>
+        /// <paramname="Encode">编码方式:gb2312，UTF-8等常见的</param>
+        ///<returns></returns>
+        public bool CreateXmlDocument(string RootName, Encoding encode)
+        {
+            try
+            {
+                XmlDeclaration xmldecl;
+                xmldecl = XmlDoc.CreateXmlDeclaration("1.0", encode.ToString(), null);
+                XmlDoc.AppendChild(xmldecl);
+                XmlElement = XmlDoc.CreateElement("", RootName, "");
+                XmlDoc.AppendChild(XmlElement);
+                Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        #endregion 创建Xml文档
+
+        #region 插入一个节点和它的若干子节点
+
+        /// <summary>
+        /// 插入一个节点和它的若干子节点
+        /// </summary>
+        /// <paramname="NewNodeName">插入的节点名称</param>
+        /// <paramname="HasAttributes">此节点是否具有属性，True为有，False为无</param>
+        /// <paramname="fatherXPath">此插入节点的父节点,要匹配的XPath表达式</param>
+        /// <paramname="htAtt">此节点的属性 可为null</param>
+        /// <paramname="htSubNode">子节点的属性 可为null</param>
+        /// <returns>返回真为更新成功，否则失败</returns>
+        public bool InsertNode(string NewNodeName, bool HasAttributes, string fatherXPath, Hashtable htAtt, Hashtable htSubNode)
+        {
+            try
+            {
+                XmlNode root = XmlDoc.SelectSingleNode(fatherXPath);
+                XmlElement = XmlDoc.CreateElement(NewNodeName);
+                if (htAtt != null && HasAttributes)//若此节点有属性，则先添加属性
+                {
+                    SetAttributes(XmlElement, htAtt);
+                    SetNodes(XmlElement, htSubNode);//添加完此节点属性后，再添加它的子节点和它们的InnerText
+                }
+                else
+                {
+                    SetNodes(XmlElement, htSubNode);//若此节点无属性，那么直接添加它的子节点
+                }
+                root.AppendChild(XmlElement);
+                Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        #endregion 插入一个节点和它的若干子节点
+
+        #region 更新节点
+
+        /// <summary>
+        /// 更新节点
+        /// </summary>
+        /// <paramname="fatherXPath">需要更新节点的上级节点,要匹配的XPath表达式(例如:"//节点名//子节点名)</param>
+        /// <paramname="htAtt">需要更新的属性表，Key代表需要更新的属性，Value代表更新后的值</param>
+        /// <param name="htSubNode">需要更新的子节点的属性表，Key代表需要更新的子节点名字Name,Value代表更新后的值InnerText</param>
+        /// <returns>返回真为更新成功，否则失败</returns>
+        public bool UpdateNode(string fatherXPath, Hashtable htAtt, Hashtable htSubNode)
+        {
+            try
+            {
+                XmlNodeList root = XmlDoc.SelectSingleNode(fatherXPath).ChildNodes;
+                UpdateNodes(root, htAtt, htSubNode);
+                Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        #endregion 更新节点
+
+        #region 删除指定节点下的节点
+
+        /// <summary>
+        /// 删除指定节点下的节点
+        /// </summary>
+        /// <paramname="fatherXPath">制定节点,要匹配的XPath表达式(例如:"//节点名//子节点名)</param>
+        /// 范例1: @"Skill/First/SkillItem", 等效于 @"//Skill/First/SkillItem"
+        /// 范例2: @"Table[USERNAME='a']" , []表示筛选,USERNAME是Table下的一个子节点.
+        /// 范例3: @"ApplyPost/Item[@itemName='岗位编号']",@itemName是Item节点的属性.
+        /// <returns>返回真为更新成功，否则失败</returns>
+        public bool RemoveNodes(string xpath)
+        {
+            try
+            {
+                XmlNode xmlnode = XmlDoc.SelectSingleNode(xpath);
+                xmlnode.RemoveAll();
+                Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        #endregion 删除指定节点下的节点
+
+        #region 私有方法
+
+        /// <summary>
+        /// 设置节点属性
+        /// </summary>
+        /// <paramname="xe">节点所处的Element</param>
+        /// <paramname="htAttribute">节点属性，Key代表属性名称，Value代表属性值</param>
+        private void SetAttributes(XmlElement xe, Hashtable htAttribute)
+        {
+            foreach (DictionaryEntry de in htAttribute)
+            {
+                xe.SetAttribute(de.Key.ToString(), de.Value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 增加子节点
+        /// </summary>
+        /// <paramname="rootNode">上级节点名称</param>
+        /// <paramname="rootXe">父根节点所属的Element</param>
+        /// <paramname="SubNodes">子节点属性，Key为Name值，Value为InnerText值</param>
+        private void SetNodes(XmlElement rootXe, Hashtable SubNodes)
+        {
+            if (SubNodes == null)
+                return;
+            foreach (DictionaryEntry de in SubNodes)
+            {
+                XmlElement subNode = XmlDoc.CreateElement(de.Key.ToString());
+                subNode.InnerText = de.Value.ToString();
+                rootXe.AppendChild(subNode);
+            }
+        }
+
+        /// <summary>
+        /// 更新节点属性和子节点InnerText值。
+        /// </summary>
+        /// <paramname="root">根节点名字</param>
+        /// <paramname="htAtt">需要更改的属性名称和值</param>
+        /// <paramname="htSubNode">需要更改InnerText的子节点名字和值</param>
+        private void UpdateNodes(XmlNodeList root, Hashtable htAtt, Hashtable htSubNode)
+        {
+            foreach (XmlNode xn in root)
+            {
+                XmlElement = (XmlElement)xn;
+                if (XmlElement.HasAttributes)//如果节点如属性，则先更改它的属性
+                {
+                    foreach (DictionaryEntry de in htAtt)//遍历属性哈希表
+                    {
+                        if (XmlElement.HasAttribute(de.Key.ToString()))//如果节点有需要更改的属性
+                        {
+                            XmlElement.SetAttribute(de.Key.ToString(), de.Value.ToString());//则把哈希表中相应的值Value赋给此属性Key
+                        }
+                    }
+                }
+                if (XmlElement.HasChildNodes)//如果有子节点，则修改其子节点的InnerText
+                {
+                    XmlNodeList xnl = XmlElement.ChildNodes;
+                    foreach (XmlNode xn1 in xnl)
+                    {
+                        XmlElement xe = (XmlElement)xn1;
+                        foreach (DictionaryEntry de in htSubNode)
+                        {
+                            if (xe.Name == de.Key.ToString())//htSubNode中的key存储了需要更改的节点名称，
+                            {
+                                xe.InnerText = de.Value.ToString();//htSubNode中的Value存储了Key节点更新后的数据
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion 私有方法
 
         #region 创建Xml的根节点
 
@@ -114,44 +318,6 @@ namespace DotNet.Utilities
         }
 
         #endregion 获取指定XPath表达式节点的属性值
-
-        #region 新增节点
-
-        /// <summary>
-        /// 新增节点。
-        /// </summary>
-        /// <param name="xmlNode">要插入的Xml节点</param>
-        public void AppendNode(XmlNode xmlNode)
-        {
-            //导入节点
-            XmlNode node = XmlDoc.ImportNode(xmlNode, true);
-
-            //将节点插入到根节点下
-            XmlElement.AppendChild(node);
-        }
-
-        #endregion 新增节点
-
-        #region 删除节点
-
-        /// <summary>
-        /// 删除指定XPath表达式的节点
-        /// </summary>
-        /// <param name="xPath">XPath表达式,
-        /// 范例1: @"Skill/First/SkillItem", 等效于 @"//Skill/First/SkillItem"
-        /// 范例2: @"Table[USERNAME='a']" , []表示筛选,USERNAME是Table下的一个子节点.
-        /// 范例3: @"ApplyPost/Item[@itemName='岗位编号']",@itemName是Item节点的属性.
-        /// </param>
-        public void RemoveNode(string xPath)
-        {
-            //获取要删除的节点
-            XmlNode node = XmlDoc.SelectSingleNode(xPath);
-
-            //删除节点
-            XmlElement.RemoveChild(node);
-        }
-
-        #endregion 删除节点
 
         #region 保存Xml文件
 
