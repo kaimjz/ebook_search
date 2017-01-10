@@ -1,4 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Template>
-  <CalogNode>123</CalogNode>
+  <目录>
+    <节点1>//*[@id="list"]</节点1>
+  </目录>
+  <内文>
+    <节点1>//*[@id="content"]</节点1>
+  </内文>
 </Template>

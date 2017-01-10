@@ -54,17 +54,17 @@ namespace DotNet.Utilities
         /// <summary>
         /// 创建一个带有根节点的Xml文件
         /// </summary>
-        /// <paramname="rootName">根节点名称</param>
-        /// <paramname="Encode">编码方式:gb2312，UTF-8等常见的</param>
-        ///<returns></returns>
-        public bool CreateXmlDocument(string RootName, Encoding encode)
+        /// <param name="rootName">根节点名称</param>
+        /// <param name="encode">编码方式:"gb2312"，"UTF-8"等常见的</param>
+        /// <returns></returns>
+        public bool CreateXmlFile(string rootName, Encoding encode)
         {
             try
             {
                 XmlDeclaration xmldecl;
                 xmldecl = XmlDoc.CreateXmlDeclaration("1.0", encode.ToString(), null);
                 XmlDoc.AppendChild(xmldecl);
-                XmlElement = XmlDoc.CreateElement("", RootName, "");
+                XmlElement = XmlDoc.CreateElement("", rootName, "");
                 XmlDoc.AppendChild(XmlElement);
                 Save();
                 return true;
@@ -82,18 +82,20 @@ namespace DotNet.Utilities
         /// <summary>
         /// 插入一个节点和它的若干子节点
         /// </summary>
-        /// <paramname="NewNodeName">插入的节点名称</param>
-        /// <paramname="HasAttributes">此节点是否具有属性，True为有，False为无</param>
-        /// <paramname="fatherXPath">此插入节点的父节点,要匹配的XPath表达式</param>
-        /// <paramname="htAtt">此节点的属性 可为null</param>
-        /// <paramname="htSubNode">子节点的属性 可为null</param>
+        /// <param name="NewNodeName">插入的节点名称</param>
+        /// <param name="NewNodeInnerText">插入的节点内容</param>
+        /// <param name="HasAttributes">此节点是否具有属性，True为有，False为无</param>
+        /// <param name="fatherXPath">此插入节点的父节点,要匹配的XPath表达式</param>
+        /// <param name="htAtt">此节点的属性 可为null</param>
+        /// <param name="htSubNode">子节点的属性 可为null</param>
         /// <returns>返回真为更新成功，否则失败</returns>
-        public bool InsertNode(string NewNodeName, bool HasAttributes, string fatherXPath, Hashtable htAtt, Hashtable htSubNode)
+        public bool InsertNode(string NewNodeName, string NewNodeInnerText, bool HasAttributes, string fatherXPath, Hashtable htAtt = null, Hashtable htSubNode = null)
         {
             try
             {
                 XmlNode root = XmlDoc.SelectSingleNode(fatherXPath);
                 XmlElement = XmlDoc.CreateElement(NewNodeName);
+                XmlElement.InnerText = NewNodeInnerText;
                 if (htAtt != null && HasAttributes)//若此节点有属性，则先添加属性
                 {
                     SetAttributes(XmlElement, htAtt);
@@ -120,16 +122,16 @@ namespace DotNet.Utilities
         /// <summary>
         /// 更新节点
         /// </summary>
-        /// <paramname="fatherXPath">需要更新节点的上级节点,要匹配的XPath表达式(例如:"//节点名//子节点名)</param>
-        /// <paramname="htAtt">需要更新的属性表，Key代表需要更新的属性，Value代表更新后的值</param>
+        /// <param name="fatherXPath">需要更新的节点,要匹配的XPath表达式(例如:"//节点名//子节点名)</param>
+        /// <param name="htAtt">需要更新的属性表，Key代表需要更新的属性，Value代表更新后的值</param>
         /// <param name="htSubNode">需要更新的子节点的属性表，Key代表需要更新的子节点名字Name,Value代表更新后的值InnerText</param>
         /// <returns>返回真为更新成功，否则失败</returns>
-        public bool UpdateNode(string fatherXPath, Hashtable htAtt, Hashtable htSubNode)
+        public bool UpdateNode(string xPath, string innerText, Hashtable htAtt = null, Hashtable htSubNode = null)
         {
             try
             {
-                XmlNodeList root = XmlDoc.SelectSingleNode(fatherXPath).ChildNodes;
-                UpdateNodes(root, htAtt, htSubNode);
+                XmlNode root = XmlDoc.SelectSingleNode(xPath);
+                UpdateNode(root, innerText, htAtt, htSubNode);
                 Save();
                 return true;
             }
@@ -146,7 +148,7 @@ namespace DotNet.Utilities
         /// <summary>
         /// 删除指定节点下的节点
         /// </summary>
-        /// <paramname="fatherXPath">制定节点,要匹配的XPath表达式(例如:"//节点名//子节点名)</param>
+        /// <param name="fatherXPath">制定节点,要匹配的XPath表达式(例如:"//节点名//子节点名)</param>
         /// 范例1: @"Skill/First/SkillItem", 等效于 @"//Skill/First/SkillItem"
         /// 范例2: @"Table[USERNAME='a']" , []表示筛选,USERNAME是Table下的一个子节点.
         /// 范例3: @"ApplyPost/Item[@itemName='岗位编号']",@itemName是Item节点的属性.
@@ -157,6 +159,7 @@ namespace DotNet.Utilities
             {
                 XmlNode xmlnode = XmlDoc.SelectSingleNode(xpath);
                 xmlnode.RemoveAll();
+                xmlnode.ParentNode.RemoveChild(xmlnode);
                 Save();
                 return true;
             }
@@ -173,8 +176,8 @@ namespace DotNet.Utilities
         /// <summary>
         /// 设置节点属性
         /// </summary>
-        /// <paramname="xe">节点所处的Element</param>
-        /// <paramname="htAttribute">节点属性，Key代表属性名称，Value代表属性值</param>
+        /// <param name="xe">节点所处的Element</param>
+        /// <param name="htAttribute">节点属性，Key代表属性名称，Value代表属性值</param>
         private void SetAttributes(XmlElement xe, Hashtable htAttribute)
         {
             foreach (DictionaryEntry de in htAttribute)
@@ -186,9 +189,9 @@ namespace DotNet.Utilities
         /// <summary>
         /// 增加子节点
         /// </summary>
-        /// <paramname="rootNode">上级节点名称</param>
-        /// <paramname="rootXe">父根节点所属的Element</param>
-        /// <paramname="SubNodes">子节点属性，Key为Name值，Value为InnerText值</param>
+        /// <param name="rootNode">上级节点名称</param>
+        /// <param name="rootXe">父根节点所属的Element</param>
+        /// <param name="SubNodes">子节点属性，Key为Name值，Value为InnerText值</param>
         private void SetNodes(XmlElement rootXe, Hashtable SubNodes)
         {
             if (SubNodes == null)
@@ -204,36 +207,37 @@ namespace DotNet.Utilities
         /// <summary>
         /// 更新节点属性和子节点InnerText值。
         /// </summary>
-        /// <paramname="root">根节点名字</param>
-        /// <paramname="htAtt">需要更改的属性名称和值</param>
-        /// <paramname="htSubNode">需要更改InnerText的子节点名字和值</param>
-        private void UpdateNodes(XmlNodeList root, Hashtable htAtt, Hashtable htSubNode)
+        /// <param name="root">根节点名字</param>
+        /// <param name="htAtt">需要更改的属性名称和值</param>
+        /// <param name="htSubNode">需要更改InnerText的子节点名字和值</param>
+        private void UpdateNode(XmlNode root, string innerText, Hashtable htAtt, Hashtable htSubNode)
         {
-            foreach (XmlNode xn in root)
+            XmlElement = (XmlElement)root;
+            if (!string.IsNullOrEmpty(innerText) && XmlElement.InnerText != innerText)
             {
-                XmlElement = (XmlElement)xn;
-                if (XmlElement.HasAttributes)//如果节点如属性，则先更改它的属性
+                XmlElement.InnerText = innerText;
+            }
+            if (XmlElement.HasAttributes && htAtt != null)//如果节点如属性，则先更改它的属性
+            {
+                foreach (DictionaryEntry de in htAtt)//遍历属性哈希表
                 {
-                    foreach (DictionaryEntry de in htAtt)//遍历属性哈希表
+                    if (XmlElement.HasAttribute(de.Key.ToString()))//如果节点有需要更改的属性
                     {
-                        if (XmlElement.HasAttribute(de.Key.ToString()))//如果节点有需要更改的属性
-                        {
-                            XmlElement.SetAttribute(de.Key.ToString(), de.Value.ToString());//则把哈希表中相应的值Value赋给此属性Key
-                        }
+                        XmlElement.SetAttribute(de.Key.ToString(), de.Value.ToString());//则把哈希表中相应的值Value赋给此属性Key
                     }
                 }
-                if (XmlElement.HasChildNodes)//如果有子节点，则修改其子节点的InnerText
+            }
+            if (XmlElement.HasChildNodes && htSubNode != null)//如果有子节点，则修改其子节点的InnerText
+            {
+                XmlNodeList xnl = XmlElement.ChildNodes;
+                foreach (XmlNode xn1 in xnl)
                 {
-                    XmlNodeList xnl = XmlElement.ChildNodes;
-                    foreach (XmlNode xn1 in xnl)
+                    XmlElement xe = (XmlElement)xn1;
+                    foreach (DictionaryEntry de in htSubNode)
                     {
-                        XmlElement xe = (XmlElement)xn1;
-                        foreach (DictionaryEntry de in htSubNode)
+                        if (xe.Name == de.Key.ToString())//htSubNode中的key存储了需要更改的节点名称，
                         {
-                            if (xe.Name == de.Key.ToString())//htSubNode中的key存储了需要更改的节点名称，
-                            {
-                                xe.InnerText = de.Value.ToString();//htSubNode中的Value存储了Key节点更新后的数据
-                            }
+                            xe.InnerText = de.Value.ToString();//htSubNode中的Value存储了Key节点更新后的数据
                         }
                     }
                 }
@@ -278,6 +282,20 @@ namespace DotNet.Utilities
         {
             //返回XPath节点
             return XmlElement.SelectSingleNode(xPath);
+        }
+
+        /// <summary>
+        /// 获取指定XPath表达式的节点对象
+        /// </summary>
+        /// <param name="xPath">XPath表达式,
+        /// 范例1: @"Skill/First/SkillItem", 等效于 @"//Skill/First/SkillItem"
+        /// 范例2: @"Table[USERNAME='a']" , []表示筛选,USERNAME是Table下的一个子节点.
+        /// 范例3: @"ApplyPost/Item[@itemName='岗位编号']",@itemName是Item节点的属性.
+        /// </param>
+        public XmlNodeList GetNodeList(string xPath)
+        {
+            //返回XPath节点
+            return XmlElement.SelectNodes(xPath);
         }
 
         #endregion 获取指定XPath表达式的节点对象
