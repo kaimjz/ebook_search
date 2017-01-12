@@ -518,9 +518,9 @@
             this.lblRemark.AutoSize = true;
             this.lblRemark.Location = new System.Drawing.Point(2, 286);
             this.lblRemark.Name = "lblRemark";
-            this.lblRemark.Size = new System.Drawing.Size(41, 12);
+            this.lblRemark.Size = new System.Drawing.Size(71, 12);
             this.lblRemark.TabIndex = 1;
-            this.lblRemark.Text = "小工具";
+            this.lblRemark.Text = "小爬虫 v1.0";
             // 
             // MainForm
             // 
