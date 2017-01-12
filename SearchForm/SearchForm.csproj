@@ -112,7 +112,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Template\笔趣阁.xml" />
+    <Content Include="bin\Debug\Template\笔趣阁.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNet.Utilities\DotNet.Utilities.csproj">

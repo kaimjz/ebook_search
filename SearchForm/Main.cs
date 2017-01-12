@@ -26,7 +26,7 @@ namespace SearchForm
         private Encoding _Encode;//编码格式
 
         //要剔除的字 符号
-        List<string> replaces = new List<string>() { "&nbsp;", "<", ">", "《", "》", "冇" };
+        private List<string> replaces = new List<string>() { "&nbsp;", "<", ">", "《", "》", "冇" };
 
         #endregion 字段
 
@@ -368,7 +368,6 @@ namespace SearchForm
 
         #endregion **************************************tab页2***************************************
 
-
         #region **************************************tab页3***************************************
 
         private void btnAddChart_Click(object sender, EventArgs e)
@@ -408,8 +407,8 @@ namespace SearchForm
                 LoadChar();
             }
         }
-        #endregion
 
+        #endregion **************************************tab页3***************************************
 
         #region **************************************公共方法***************************************
 
@@ -421,7 +420,7 @@ namespace SearchForm
         /// <returns></returns>
         private Dictionary<string, string> GetTemplateList()
         {
-            _TemplateDir = Directory.GetParent(Application.StartupPath).Parent.FullName + "\\Template\\";
+            _TemplateDir = Application.StartupPath + "\\Template\\";
             string[] files = Directory.GetFiles(_TemplateDir);
             return files.ToDictionary(k => Path.GetFileNameWithoutExtension(k), v => v);
         }
@@ -586,7 +585,8 @@ namespace SearchForm
                 this.rtbxChar.AppendText(a + "\r\n");
             });
         }
-        #endregion
+
+        #endregion 加载特殊字符
 
         #endregion **************************************公共方法***************************************
     }
