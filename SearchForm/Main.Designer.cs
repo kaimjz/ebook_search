@@ -30,11 +30,16 @@
         {
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbxSign = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.tbxReadPath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbxSavePath = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cbxType1 = new System.Windows.Forms.ComboBox();
@@ -57,24 +62,30 @@
             this.cbxPage = new System.Windows.Forms.ComboBox();
             this.listView3 = new System.Windows.Forms.ListView();
             this.lblRemark = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbxSign = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblPercent = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tbxBookName = new System.Windows.Forms.TextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label13 = new System.Windows.Forms.Label();
+            this.btnAddChart = new System.Windows.Forms.Button();
+            this.tbxChar = new System.Windows.Forms.TextBox();
+            this.rtbxChar = new System.Windows.Forms.RichTextBox();
+            this.btnCharDel = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
             // 
             this.tabMain.Controls.Add(this.tabPage1);
             this.tabMain.Controls.Add(this.tabPage2);
+            this.tabMain.Controls.Add(this.tabPage3);
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(481, 241);
+            this.tabMain.Size = new System.Drawing.Size(481, 283);
             this.tabMain.TabIndex = 0;
             this.tabMain.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabMain_Selected);
             this.tabMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabMain_MouseDown);
@@ -82,11 +93,14 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.lblPercent);
             this.tabPage1.Controls.Add(this.progressBar1);
             this.tabPage1.Controls.Add(this.label9);
             this.tabPage1.Controls.Add(this.tbxSign);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.btnStart);
+            this.tabPage1.Controls.Add(this.tbxBookName);
+            this.tabPage1.Controls.Add(this.label11);
             this.tabPage1.Controls.Add(this.tbxReadPath);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.tbxSavePath);
@@ -101,10 +115,34 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(473, 215);
+            this.tabPage1.Size = new System.Drawing.Size(473, 257);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "主窗体";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(104, 206);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(215, 23);
+            this.progressBar1.TabIndex = 13;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(387, 131);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(35, 12);
+            this.label9.TabIndex = 12;
+            this.label9.Text = "*间隔";
+            // 
+            // tbxSign
+            // 
+            this.tbxSign.Location = new System.Drawing.Point(104, 127);
+            this.tbxSign.Name = "tbxSign";
+            this.tbxSign.Size = new System.Drawing.Size(277, 21);
+            this.tbxSign.TabIndex = 11;
+            this.tbxSign.Text = "dt*a";
             // 
             // label6
             // 
@@ -118,9 +156,9 @@
             // btnStart
             // 
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStart.Location = new System.Drawing.Point(347, 164);
+            this.btnStart.Location = new System.Drawing.Point(354, 206);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.Size = new System.Drawing.Size(68, 23);
             this.btnStart.TabIndex = 5;
             this.btnStart.Text = "开始";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -128,7 +166,7 @@
             // 
             // tbxReadPath
             // 
-            this.tbxReadPath.Location = new System.Drawing.Point(104, 51);
+            this.tbxReadPath.Location = new System.Drawing.Point(104, 90);
             this.tbxReadPath.Name = "tbxReadPath";
             this.tbxReadPath.Size = new System.Drawing.Size(319, 21);
             this.tbxReadPath.TabIndex = 4;
@@ -137,7 +175,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 54);
+            this.label3.Location = new System.Drawing.Point(27, 93);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 3;
@@ -145,17 +183,35 @@
             // 
             // tbxSavePath
             // 
-            this.tbxSavePath.Location = new System.Drawing.Point(104, 122);
+            this.tbxSavePath.Location = new System.Drawing.Point(104, 164);
             this.tbxSavePath.Name = "tbxSavePath";
             this.tbxSavePath.Size = new System.Drawing.Size(318, 21);
             this.tbxSavePath.TabIndex = 4;
             this.tbxSavePath.Text = "C:\\Users\\kaimj\\Desktop\\demo\\测试.txt";
             this.tbxSavePath.Click += new System.EventHandler(this.tbxSavePath_Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(26, 133);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 12);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "读取标记:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(27, 211);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(59, 12);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "读取进度:";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 125);
+            this.label2.Location = new System.Drawing.Point(26, 167);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 3;
@@ -233,7 +289,7 @@
             this.tabPage2.Controls.Add(this.listView3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(473, 215);
+            this.tabPage2.Size = new System.Drawing.Size(473, 257);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "配置XML";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -311,9 +367,11 @@
             // 
             // rtbxXml
             // 
-            this.rtbxXml.Location = new System.Drawing.Point(3, 116);
+            this.rtbxXml.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rtbxXml.Location = new System.Drawing.Point(-2, 135);
+            this.rtbxXml.Margin = new System.Windows.Forms.Padding(0);
             this.rtbxXml.Name = "rtbxXml";
-            this.rtbxXml.Size = new System.Drawing.Size(467, 96);
+            this.rtbxXml.Size = new System.Drawing.Size(478, 125);
             this.rtbxXml.TabIndex = 5;
             this.rtbxXml.Text = "";
             // 
@@ -373,60 +431,102 @@
             // lblRemark
             // 
             this.lblRemark.AutoSize = true;
-            this.lblRemark.Location = new System.Drawing.Point(3, 247);
+            this.lblRemark.Location = new System.Drawing.Point(2, 286);
             this.lblRemark.Name = "lblRemark";
             this.lblRemark.Size = new System.Drawing.Size(41, 12);
             this.lblRemark.TabIndex = 1;
             this.lblRemark.Text = "小工具";
             // 
-            // label8
+            // lblPercent
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(26, 91);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 12);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "读取标记:";
+            this.lblPercent.AutoSize = true;
+            this.lblPercent.Location = new System.Drawing.Point(325, 212);
+            this.lblPercent.Name = "lblPercent";
+            this.lblPercent.Size = new System.Drawing.Size(0, 12);
+            this.lblPercent.TabIndex = 14;
             // 
-            // tbxSign
+            // label11
             // 
-            this.tbxSign.Location = new System.Drawing.Point(104, 85);
-            this.tbxSign.Name = "tbxSign";
-            this.tbxSign.Size = new System.Drawing.Size(277, 21);
-            this.tbxSign.TabIndex = 11;
-            this.tbxSign.Text = "dt*a";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(27, 56);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(59, 12);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "读取书名:";
             // 
-            // label9
+            // tbxBookName
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(387, 89);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 12);
-            this.label9.TabIndex = 12;
-            this.label9.Text = "*间隔";
+            this.tbxBookName.Location = new System.Drawing.Point(104, 53);
+            this.tbxBookName.Name = "tbxBookName";
+            this.tbxBookName.Size = new System.Drawing.Size(319, 21);
+            this.tbxBookName.TabIndex = 4;
+            this.tbxBookName.Text = "仙国大帝";
             // 
-            // progressBar1
+            // tabPage3
             // 
-            this.progressBar1.Location = new System.Drawing.Point(104, 164);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(225, 23);
-            this.progressBar1.TabIndex = 13;
+            this.tabPage3.Controls.Add(this.rtbxChar);
+            this.tabPage3.Controls.Add(this.label13);
+            this.tabPage3.Controls.Add(this.btnCharDel);
+            this.tabPage3.Controls.Add(this.btnAddChart);
+            this.tabPage3.Controls.Add(this.tbxChar);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(473, 257);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "去除特殊字符";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // label13
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(27, 169);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(59, 12);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "保存地址:";
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(35, 44);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(59, 12);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "特殊字符:";
+            // 
+            // btnAddChart
+            // 
+            this.btnAddChart.Location = new System.Drawing.Point(100, 88);
+            this.btnAddChart.Name = "btnAddChart";
+            this.btnAddChart.Size = new System.Drawing.Size(75, 23);
+            this.btnAddChart.TabIndex = 11;
+            this.btnAddChart.Text = "添加";
+            this.btnAddChart.UseVisualStyleBackColor = true;
+            this.btnAddChart.Click += new System.EventHandler(this.btnAddChart_Click);
+            // 
+            // tbxChar
+            // 
+            this.tbxChar.Location = new System.Drawing.Point(100, 41);
+            this.tbxChar.Name = "tbxChar";
+            this.tbxChar.Size = new System.Drawing.Size(257, 21);
+            this.tbxChar.TabIndex = 10;
+            // 
+            // rtbxChar
+            // 
+            this.rtbxChar.Location = new System.Drawing.Point(-2, 128);
+            this.rtbxChar.Margin = new System.Windows.Forms.Padding(0);
+            this.rtbxChar.Name = "rtbxChar";
+            this.rtbxChar.Size = new System.Drawing.Size(478, 133);
+            this.rtbxChar.TabIndex = 14;
+            this.rtbxChar.Text = "";
+            // 
+            // btnCharDel
+            // 
+            this.btnCharDel.Location = new System.Drawing.Point(282, 88);
+            this.btnCharDel.Name = "btnCharDel";
+            this.btnCharDel.Size = new System.Drawing.Size(75, 23);
+            this.btnCharDel.TabIndex = 11;
+            this.btnCharDel.Text = "删除";
+            this.btnCharDel.UseVisualStyleBackColor = true;
+            this.btnCharDel.Click += new System.EventHandler(this.btnCharDel_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(479, 263);
+            this.ClientSize = new System.Drawing.Size(479, 307);
             this.Controls.Add(this.lblRemark);
             this.Controls.Add(this.tabMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -439,6 +539,8 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -480,6 +582,15 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblPercent;
+        private System.Windows.Forms.TextBox tbxBookName;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btnAddChart;
+        private System.Windows.Forms.TextBox tbxChar;
+        private System.Windows.Forms.RichTextBox rtbxChar;
+        private System.Windows.Forms.Button btnCharDel;
     }
 }
 

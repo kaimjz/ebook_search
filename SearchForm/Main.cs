@@ -25,6 +25,9 @@ namespace SearchForm
 
         private Encoding _Encode;//编码格式
 
+        //要剔除的字 符号
+        List<string> replaces = new List<string>() { "&nbsp;", "<", ">", "《", "》", "冇" };
+
         #endregion 字段
 
         #region 构造+初始
@@ -37,7 +40,6 @@ namespace SearchForm
         private void MainForm_Load(object sender, EventArgs e)
         {
             _TemplateDict = GetTemplateList();//获取模板集合
-            this.cbxEncode.SelectedIndex = 0;
             this.cbxType1.Items.Clear();
             this.cbxType2.Items.Clear();
             if (_TemplateDict != null && _TemplateDict.Count > 0)
@@ -50,6 +52,8 @@ namespace SearchForm
                 this.cbxType1.SelectedIndex = 0;
                 this.cbxType2.SelectedIndex = 0;
             }
+            this.cbxEncode.SelectedIndex = 0;
+            this.cbxPage.SelectedIndex = 0;
         }
 
         #endregion 构造+初始
@@ -71,28 +75,21 @@ namespace SearchForm
 
         #endregion 窗体拖动
 
-        #region tab切换
+        #region tab
 
         private void tabMain_Selected(object sender, TabControlEventArgs e)
         {
-            if (e.TabPageIndex == 0)
-            {
-                this.cbxType1.SelectedIndex = 0;
-                this.cbxEncode.SelectedIndex = 0;
-                this.tbxReadPath.Text = "";
-                this.tbxSavePath.Text = "";
-            }
             if (e.TabPageIndex == 1)
             {
-                this.cbxType2.SelectedIndex = 0;
-                this.cbxPage.SelectedIndex = 0;
-                this.tbxName.Text = "";
-                this.tbxValue.Text = "";
-                GetNodeList();
+                LoadNodeList();
+            }
+            if (e.TabPageIndex == 2)
+            {
+                LoadChar();
             }
         }
 
-        #endregion tab切换
+        #endregion tab
 
         #region **************************************tab页1***************************************
 
@@ -160,6 +157,7 @@ namespace SearchForm
             }
             try
             {
+                this.btnStart.Enabled = false;
                 StringBuilder strContent = new StringBuilder();
                 string htmlPath = Path.GetDirectoryName(this.tbxReadPath.Text.Trim());//当前具体站点
                 HtmlAP.HtmlDocument htmlDoc = new HtmlAP.HtmlDocument();
@@ -179,6 +177,9 @@ namespace SearchForm
                         continue;
                     }
                     HtmlAP.HtmlNodeCollection nodeList = GetALLNodeList(catalogNode);
+                    this.progressBar1.Maximum = nodeList.Count;
+                    this.progressBar1.Value = 0;
+                    this.lblPercent.Text = "0%";
                     if (nodeList == null)
                     {
                         continue;
@@ -192,6 +193,7 @@ namespace SearchForm
                             {
                                 continue;
                             }
+
                             string contentPath = node.Attributes["href"].Value + "";
                             if (contentPath.IndexOf("http://") == -1)
                             {
@@ -199,13 +201,31 @@ namespace SearchForm
                             }
                             strContent.Append(GetContent(contentPath));
                         }
+                        ++this.progressBar1.Value;
+                        this.lblPercent.Text = (int)((double)this.progressBar1.Value / (double)this.progressBar1.Maximum * 100) + "%";
+                        Application.DoEvents();
                     }
                 }
-                FileHelper.FileSave(this.tbxSavePath.Text, strContent.ToString().Replace("&nbsp;", ""));
+                this.progressBar1.Value = this.progressBar1.Maximum;
+                this.lblPercent.Text = "100%";
+                string sstr = new Regex("<.*?>").Replace(strContent.ToString(), "");
+                sstr = new Regex(@"《.*?》").Replace(sstr, "");
+
+                if (this.tbxBookName.Text.Trim() != "")
+                {
+                    replaces.Add(this.tbxBookName.Text.Trim());
+                }
+                replaces.ForEach(a =>
+                {
+                    sstr = sstr.Replace(a, "");
+                });
+                FileHelper.FileSave(this.tbxSavePath.Text, sstr);
+                this.btnStart.Enabled = true;
                 MessageBox.Show("抓取成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.None);
             }
             catch (Exception ex)
             {
+                this.btnStart.Enabled = true;
                 MessageBox.Show("抓取失败!原因:\r\n" + ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -220,7 +240,7 @@ namespace SearchForm
 
         private void cbxPage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GetNodeList();
+            LoadNodeList();
         }
 
         #endregion 页类别
@@ -255,7 +275,7 @@ namespace SearchForm
                 if (xhelp.InsertNode(this.tbxName.Text.Trim(), this.tbxValue.Text.Trim(), false, "//Template/" + this.cbxPage.Text))
                 {
                     MessageBox.Show("添加成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    GetNodeList();
+                    LoadNodeList();
                 }
                 else
                 {
@@ -278,7 +298,7 @@ namespace SearchForm
             {
                 if (this.tbxName.Text.Trim() == "" || this.tbxValue.Text.Trim() == "")
                 {
-                    MessageBox.Show("请输入要添加的节点名或值!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("请输入要修改的节点名或值!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (this.tbxName.Text.Trim().Length > 20)
@@ -295,7 +315,7 @@ namespace SearchForm
                 if (xhelp.UpdateNode("//Template/" + this.cbxPage.Text + "/" + this.tbxName.Text.Trim(), this.tbxValue.Text.Trim()))
                 {
                     MessageBox.Show("更新成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    GetNodeList();
+                    LoadNodeList();
                 }
                 else
                 {
@@ -331,7 +351,7 @@ namespace SearchForm
                 if (xhelp.RemoveNodes("//Template/" + this.cbxPage.Text + "/" + this.tbxName.Text.Trim()))
                 {
                     MessageBox.Show("删除成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    GetNodeList();
+                    LoadNodeList();
                 }
                 else
                 {
@@ -347,6 +367,49 @@ namespace SearchForm
         #endregion 删除节点
 
         #endregion **************************************tab页2***************************************
+
+
+        #region **************************************tab页3***************************************
+
+        private void btnAddChart_Click(object sender, EventArgs e)
+        {
+            if (this.tbxChar.Text.Trim() == "")
+            {
+                MessageBox.Show("请输入要添加的特殊字符!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var str = replaces.Find(p => p == this.tbxChar.Text.Trim());
+            if (str != null)
+            {
+                MessageBox.Show("已有该特殊字符!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                replaces.Add(this.tbxChar.Text.Trim());
+                LoadChar();
+            }
+        }
+
+        private void btnCharDel_Click(object sender, EventArgs e)
+        {
+            if (this.tbxChar.Text.Trim() == "")
+            {
+                MessageBox.Show("请输入要删除的特殊字符!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var str = replaces.Find(p => p == this.tbxChar.Text.Trim());
+            if (str == null)
+            {
+                MessageBox.Show("该特殊字符不存在!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                replaces.Remove(this.tbxChar.Text.Trim());
+                LoadChar();
+            }
+        }
+        #endregion
+
 
         #region **************************************公共方法***************************************
 
@@ -370,7 +433,7 @@ namespace SearchForm
         /// <summary>
         /// 加载节点集合
         /// </summary>
-        private void GetNodeList()
+        private void LoadNodeList()
         {
             XmlHelper xhelp = new XmlHelper(_TemplateDict[this.cbxType2.Text]);
             XmlNodeList nodeList = xhelp.GetNode("//Template/" + this.cbxPage.Text).ChildNodes;
@@ -429,12 +492,10 @@ namespace SearchForm
                 strMsg = reader.ReadToEnd();
 
                 reader.Close();
-                reader.Dispose();
                 response.Close();
             }
             catch (Exception ex)
             {
-                throw ex;
             }
             return strMsg.Trim("\r\n".ToCharArray()).Trim("\n".ToCharArray());
         }
@@ -506,12 +567,26 @@ namespace SearchForm
             }
             catch (Exception ex)
             {
-                throw ex;
             }
             return strContent.ToString();
         }
 
         #endregion 获取内文文件的内容
+
+        #region 加载特殊字符
+
+        /// <summary>
+        /// 加载特殊字符
+        /// </summary>
+        private void LoadChar()
+        {
+            this.rtbxChar.Clear();
+            replaces.ForEach(a =>
+            {
+                this.rtbxChar.AppendText(a + "\r\n");
+            });
+        }
+        #endregion
 
         #endregion **************************************公共方法***************************************
     }
