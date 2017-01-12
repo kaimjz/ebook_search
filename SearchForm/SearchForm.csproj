@@ -112,6 +112,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\img\icon.ico" />
     <Content Include="bin\Debug\Template\笔趣阁.xml" />
   </ItemGroup>
   <ItemGroup>

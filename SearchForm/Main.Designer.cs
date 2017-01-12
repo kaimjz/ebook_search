@@ -28,13 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblPercent = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label9 = new System.Windows.Forms.Label();
             this.tbxSign = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
+            this.tbxBookName = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.tbxReadPath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbxSavePath = new System.Windows.Forms.TextBox();
@@ -61,16 +65,13 @@
             this.listView4 = new System.Windows.Forms.ListView();
             this.cbxPage = new System.Windows.Forms.ComboBox();
             this.listView3 = new System.Windows.Forms.ListView();
-            this.lblRemark = new System.Windows.Forms.Label();
-            this.lblPercent = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.tbxBookName = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.rtbxChar = new System.Windows.Forms.RichTextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.btnCharDel = new System.Windows.Forms.Button();
             this.btnAddChart = new System.Windows.Forms.Button();
             this.tbxChar = new System.Windows.Forms.TextBox();
-            this.rtbxChar = new System.Windows.Forms.RichTextBox();
-            this.btnCharDel = new System.Windows.Forms.Button();
+            this.lblRemark = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -120,6 +121,14 @@
             this.tabPage1.Text = "主窗体";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // lblPercent
+            // 
+            this.lblPercent.AutoSize = true;
+            this.lblPercent.Location = new System.Drawing.Point(325, 212);
+            this.lblPercent.Name = "lblPercent";
+            this.lblPercent.Size = new System.Drawing.Size(0, 12);
+            this.lblPercent.TabIndex = 14;
+            // 
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(104, 206);
@@ -163,6 +172,23 @@
             this.btnStart.Text = "开始";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // tbxBookName
+            // 
+            this.tbxBookName.Location = new System.Drawing.Point(104, 53);
+            this.tbxBookName.Name = "tbxBookName";
+            this.tbxBookName.Size = new System.Drawing.Size(319, 21);
+            this.tbxBookName.TabIndex = 4;
+            this.tbxBookName.Text = "仙国大帝";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(27, 56);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(59, 12);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "读取书名:";
             // 
             // tbxReadPath
             // 
@@ -428,40 +454,6 @@
             this.listView3.TabIndex = 14;
             this.listView3.UseCompatibleStateImageBehavior = false;
             // 
-            // lblRemark
-            // 
-            this.lblRemark.AutoSize = true;
-            this.lblRemark.Location = new System.Drawing.Point(2, 286);
-            this.lblRemark.Name = "lblRemark";
-            this.lblRemark.Size = new System.Drawing.Size(41, 12);
-            this.lblRemark.TabIndex = 1;
-            this.lblRemark.Text = "小工具";
-            // 
-            // lblPercent
-            // 
-            this.lblPercent.AutoSize = true;
-            this.lblPercent.Location = new System.Drawing.Point(325, 212);
-            this.lblPercent.Name = "lblPercent";
-            this.lblPercent.Size = new System.Drawing.Size(0, 12);
-            this.lblPercent.TabIndex = 14;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(27, 56);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(59, 12);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "读取书名:";
-            // 
-            // tbxBookName
-            // 
-            this.tbxBookName.Location = new System.Drawing.Point(104, 53);
-            this.tbxBookName.Name = "tbxBookName";
-            this.tbxBookName.Size = new System.Drawing.Size(319, 21);
-            this.tbxBookName.TabIndex = 4;
-            this.tbxBookName.Text = "仙国大帝";
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.rtbxChar);
@@ -476,6 +468,15 @@
             this.tabPage3.Text = "去除特殊字符";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // rtbxChar
+            // 
+            this.rtbxChar.Location = new System.Drawing.Point(-2, 128);
+            this.rtbxChar.Margin = new System.Windows.Forms.Padding(0);
+            this.rtbxChar.Name = "rtbxChar";
+            this.rtbxChar.Size = new System.Drawing.Size(478, 133);
+            this.rtbxChar.TabIndex = 14;
+            this.rtbxChar.Text = "";
+            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -484,6 +485,16 @@
             this.label13.Size = new System.Drawing.Size(59, 12);
             this.label13.TabIndex = 13;
             this.label13.Text = "特殊字符:";
+            // 
+            // btnCharDel
+            // 
+            this.btnCharDel.Location = new System.Drawing.Point(282, 88);
+            this.btnCharDel.Name = "btnCharDel";
+            this.btnCharDel.Size = new System.Drawing.Size(75, 23);
+            this.btnCharDel.TabIndex = 11;
+            this.btnCharDel.Text = "删除";
+            this.btnCharDel.UseVisualStyleBackColor = true;
+            this.btnCharDel.Click += new System.EventHandler(this.btnCharDel_Click);
             // 
             // btnAddChart
             // 
@@ -502,24 +513,14 @@
             this.tbxChar.Size = new System.Drawing.Size(257, 21);
             this.tbxChar.TabIndex = 10;
             // 
-            // rtbxChar
+            // lblRemark
             // 
-            this.rtbxChar.Location = new System.Drawing.Point(-2, 128);
-            this.rtbxChar.Margin = new System.Windows.Forms.Padding(0);
-            this.rtbxChar.Name = "rtbxChar";
-            this.rtbxChar.Size = new System.Drawing.Size(478, 133);
-            this.rtbxChar.TabIndex = 14;
-            this.rtbxChar.Text = "";
-            // 
-            // btnCharDel
-            // 
-            this.btnCharDel.Location = new System.Drawing.Point(282, 88);
-            this.btnCharDel.Name = "btnCharDel";
-            this.btnCharDel.Size = new System.Drawing.Size(75, 23);
-            this.btnCharDel.TabIndex = 11;
-            this.btnCharDel.Text = "删除";
-            this.btnCharDel.UseVisualStyleBackColor = true;
-            this.btnCharDel.Click += new System.EventHandler(this.btnCharDel_Click);
+            this.lblRemark.AutoSize = true;
+            this.lblRemark.Location = new System.Drawing.Point(2, 286);
+            this.lblRemark.Name = "lblRemark";
+            this.lblRemark.Size = new System.Drawing.Size(41, 12);
+            this.lblRemark.TabIndex = 1;
+            this.lblRemark.Text = "小工具";
             // 
             // MainForm
             // 
@@ -530,6 +531,7 @@
             this.Controls.Add(this.lblRemark);
             this.Controls.Add(this.tabMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "主窗体";
