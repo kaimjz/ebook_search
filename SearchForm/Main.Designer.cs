@@ -72,6 +72,7 @@
             this.btnAddChart = new System.Windows.Forms.Button();
             this.tbxChar = new System.Windows.Forms.TextBox();
             this.lblRemark = new System.Windows.Forms.Label();
+            this.lblClose = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -83,10 +84,12 @@
             this.tabMain.Controls.Add(this.tabPage1);
             this.tabMain.Controls.Add(this.tabPage2);
             this.tabMain.Controls.Add(this.tabPage3);
+            this.tabMain.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
+            this.tabMain.Multiline = true;
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(481, 283);
+            this.tabMain.Size = new System.Drawing.Size(479, 283);
             this.tabMain.TabIndex = 0;
             this.tabMain.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabMain_Selected);
             this.tabMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabMain_MouseDown);
@@ -116,7 +119,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(473, 257);
+            this.tabPage1.Size = new System.Drawing.Size(471, 257);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "主窗体";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -124,7 +127,7 @@
             // lblPercent
             // 
             this.lblPercent.AutoSize = true;
-            this.lblPercent.Location = new System.Drawing.Point(325, 212);
+            this.lblPercent.Location = new System.Drawing.Point(323, 211);
             this.lblPercent.Name = "lblPercent";
             this.lblPercent.Size = new System.Drawing.Size(0, 12);
             this.lblPercent.TabIndex = 14;
@@ -139,17 +142,17 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(387, 131);
+            this.label9.Location = new System.Drawing.Point(291, 131);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 12);
+            this.label9.Size = new System.Drawing.Size(131, 12);
             this.label9.TabIndex = 12;
-            this.label9.Text = "*间隔";
+            this.label9.Text = "卷名和章名标签(*间隔)";
             // 
             // tbxSign
             // 
             this.tbxSign.Location = new System.Drawing.Point(104, 127);
             this.tbxSign.Name = "tbxSign";
-            this.tbxSign.Size = new System.Drawing.Size(277, 21);
+            this.tbxSign.Size = new System.Drawing.Size(181, 21);
             this.tbxSign.TabIndex = 11;
             this.tbxSign.Text = "dt*a";
             // 
@@ -180,6 +183,7 @@
             this.tbxBookName.Size = new System.Drawing.Size(319, 21);
             this.tbxBookName.TabIndex = 4;
             this.tbxBookName.Text = "仙国大帝";
+            this.tbxBookName.TextChanged += new System.EventHandler(this.tbxBookName_TextChanged);
             // 
             // label11
             // 
@@ -213,7 +217,7 @@
             this.tbxSavePath.Name = "tbxSavePath";
             this.tbxSavePath.Size = new System.Drawing.Size(318, 21);
             this.tbxSavePath.TabIndex = 4;
-            this.tbxSavePath.Text = "C:\\Users\\kaimj\\Desktop\\demo\\测试.txt";
+            this.tbxSavePath.Text = "C:\\Users\\kaimj\\Desktop\\仙国大帝.txt";
             this.tbxSavePath.Click += new System.EventHandler(this.tbxSavePath_Click);
             // 
             // label8
@@ -266,6 +270,7 @@
             this.cbxType1.Name = "cbxType1";
             this.cbxType1.Size = new System.Drawing.Size(105, 20);
             this.cbxType1.TabIndex = 0;
+            this.cbxType1.SelectedIndexChanged += new System.EventHandler(this.cbxType1_SelectedIndexChanged);
             // 
             // listView1
             // 
@@ -315,7 +320,7 @@
             this.tabPage2.Controls.Add(this.listView3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(473, 257);
+            this.tabPage2.Size = new System.Drawing.Size(471, 257);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "配置XML";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -423,6 +428,7 @@
             this.cbxType2.Name = "cbxType2";
             this.cbxType2.Size = new System.Drawing.Size(103, 20);
             this.cbxType2.TabIndex = 3;
+            this.cbxType2.SelectedIndexChanged += new System.EventHandler(this.cbxType2_SelectedIndexChanged);
             // 
             // listView4
             // 
@@ -463,7 +469,7 @@
             this.tabPage3.Controls.Add(this.tbxChar);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(473, 257);
+            this.tabPage3.Size = new System.Drawing.Size(471, 257);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "去除特殊字符";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -522,12 +528,23 @@
             this.lblRemark.TabIndex = 1;
             this.lblRemark.Text = "小爬虫 v1.0";
             // 
+            // lblClose
+            // 
+            this.lblClose.AutoSize = true;
+            this.lblClose.Location = new System.Drawing.Point(442, 286);
+            this.lblClose.Name = "lblClose";
+            this.lblClose.Size = new System.Drawing.Size(29, 12);
+            this.lblClose.TabIndex = 2;
+            this.lblClose.Text = "关闭";
+            this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(479, 307);
+            this.Controls.Add(this.lblClose);
             this.Controls.Add(this.lblRemark);
             this.Controls.Add(this.tabMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -593,6 +610,7 @@
         private System.Windows.Forms.TextBox tbxChar;
         private System.Windows.Forms.RichTextBox rtbxChar;
         private System.Windows.Forms.Button btnCharDel;
+        private System.Windows.Forms.Label lblClose;
     }
 }
 

@@ -38,9 +38,9 @@ namespace DotNet.Utilities
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             }
-            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate);
+            using (StreamWriter sw = new StreamWriter(fs, isUtf8 ? Encoding.UTF8 : Encoding.Default))
             {
-                StreamWriter sw = new StreamWriter(fs, isUtf8 ? Encoding.UTF8 : Encoding.Default);
                 sw.Write(strContent);
             }
         }
@@ -62,9 +62,9 @@ namespace DotNet.Utilities
                 FileSave(filePath, strContent, isUtf8);
                 return;
             }
-            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+            FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write);
+            using (StreamWriter sw = new StreamWriter(fs, isUtf8 ? Encoding.UTF8 : Encoding.Default))
             {
-                StreamWriter sw = new StreamWriter(fs, isUtf8 ? Encoding.UTF8 : Encoding.Default);
                 sw.Write(filePath);
             }
         }
