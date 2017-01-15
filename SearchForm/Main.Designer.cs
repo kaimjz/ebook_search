@@ -73,6 +73,8 @@
             this.tbxChar = new System.Windows.Forms.TextBox();
             this.lblRemark = new System.Windows.Forms.Label();
             this.lblClose = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.tbxContentPath = new System.Windows.Forms.TextBox();
             this.tabMain.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -97,6 +99,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.tbxContentPath);
+            this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.lblPercent);
             this.tabPage1.Controls.Add(this.progressBar1);
             this.tabPage1.Controls.Add(this.label9);
@@ -134,7 +138,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(104, 206);
+            this.progressBar1.Location = new System.Drawing.Point(104, 214);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(215, 23);
             this.progressBar1.TabIndex = 13;
@@ -142,7 +146,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(291, 131);
+            this.label9.Location = new System.Drawing.Point(291, 116);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(131, 12);
             this.label9.TabIndex = 12;
@@ -150,7 +154,7 @@
             // 
             // tbxSign
             // 
-            this.tbxSign.Location = new System.Drawing.Point(104, 127);
+            this.tbxSign.Location = new System.Drawing.Point(104, 112);
             this.tbxSign.Name = "tbxSign";
             this.tbxSign.Size = new System.Drawing.Size(181, 21);
             this.tbxSign.TabIndex = 11;
@@ -168,7 +172,7 @@
             // btnStart
             // 
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStart.Location = new System.Drawing.Point(354, 206);
+            this.btnStart.Location = new System.Drawing.Point(354, 214);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(68, 23);
             this.btnStart.TabIndex = 5;
@@ -178,7 +182,7 @@
             // 
             // tbxBookName
             // 
-            this.tbxBookName.Location = new System.Drawing.Point(104, 53);
+            this.tbxBookName.Location = new System.Drawing.Point(104, 49);
             this.tbxBookName.Name = "tbxBookName";
             this.tbxBookName.Size = new System.Drawing.Size(319, 21);
             this.tbxBookName.TabIndex = 4;
@@ -188,7 +192,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(27, 56);
+            this.label11.Location = new System.Drawing.Point(27, 52);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(59, 12);
             this.label11.TabIndex = 3;
@@ -196,16 +200,17 @@
             // 
             // tbxReadPath
             // 
-            this.tbxReadPath.Location = new System.Drawing.Point(104, 90);
+            this.tbxReadPath.Location = new System.Drawing.Point(104, 81);
             this.tbxReadPath.Name = "tbxReadPath";
             this.tbxReadPath.Size = new System.Drawing.Size(319, 21);
             this.tbxReadPath.TabIndex = 4;
             this.tbxReadPath.Text = "http://www.cangqionglongqi.com/xianguodadi/";
+            this.tbxReadPath.TextChanged += new System.EventHandler(this.tbxReadPath_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 93);
+            this.label3.Location = new System.Drawing.Point(27, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 3;
@@ -213,7 +218,7 @@
             // 
             // tbxSavePath
             // 
-            this.tbxSavePath.Location = new System.Drawing.Point(104, 164);
+            this.tbxSavePath.Location = new System.Drawing.Point(104, 180);
             this.tbxSavePath.Name = "tbxSavePath";
             this.tbxSavePath.Size = new System.Drawing.Size(318, 21);
             this.tbxSavePath.TabIndex = 4;
@@ -223,7 +228,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(26, 133);
+            this.label8.Location = new System.Drawing.Point(26, 118);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 12);
             this.label8.TabIndex = 3;
@@ -232,7 +237,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(27, 211);
+            this.label10.Location = new System.Drawing.Point(26, 219);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(59, 12);
             this.label10.TabIndex = 3;
@@ -241,7 +246,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 167);
+            this.label2.Location = new System.Drawing.Point(26, 183);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 3;
@@ -538,6 +543,22 @@
             this.lblClose.Text = "关闭";
             this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(26, 149);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(59, 12);
+            this.label12.TabIndex = 15;
+            this.label12.Text = "分页路径:";
+            // 
+            // tbxContentPath
+            // 
+            this.tbxContentPath.Location = new System.Drawing.Point(104, 146);
+            this.tbxContentPath.Name = "tbxContentPath";
+            this.tbxContentPath.Size = new System.Drawing.Size(319, 21);
+            this.tbxContentPath.TabIndex = 16;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -611,6 +632,8 @@
         private System.Windows.Forms.RichTextBox rtbxChar;
         private System.Windows.Forms.Button btnCharDel;
         private System.Windows.Forms.Label lblClose;
+        private System.Windows.Forms.TextBox tbxContentPath;
+        private System.Windows.Forms.Label label12;
     }
 }
 

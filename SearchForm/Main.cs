@@ -116,6 +116,13 @@ namespace SearchForm
 
         #region **************************************tab页1***************************************
 
+        #region 读取路径更改时, 动态更改内文路径
+        private void tbxReadPath_TextChanged(object sender, EventArgs e)
+        {
+            this.tbxContentPath.Text = this.tbxReadPath.Text.Trim();
+        }
+        #endregion
+
         #region 文件保存地址
 
         private void tbxBookName_TextChanged(object sender, EventArgs e)
@@ -145,7 +152,7 @@ namespace SearchForm
                     _Encode = Encoding.Default;
                     break;
 
-                case "UTF-8":
+                case "UTF8":
                     _Encode = Encoding.UTF8;
                     break;
 
@@ -548,7 +555,7 @@ namespace SearchForm
             {
                 WebRequest request = WebRequest.Create(strUrl);
                 WebResponse response = request.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.Default);
+                StreamReader reader = new StreamReader(response.GetResponseStream(), _Encode);
 
                 strMsg = reader.ReadToEnd();
 
@@ -606,7 +613,6 @@ namespace SearchForm
             StringBuilder strContent = new StringBuilder();
             try
             {
-                htmlPath = htmlPath.Replace("\\", "/").Replace("http:/", "http://");
                 HtmlAP.HtmlDocument htmlDoc = new HtmlAP.HtmlDocument();
                 string htmlstr = GetGeneralContent(htmlPath);
                 htmlDoc.LoadHtml(htmlstr);
@@ -659,7 +665,6 @@ namespace SearchForm
         private List<NodeModel> GetNodeModelList()
         {
             List<NodeModel> nModelList = new List<NodeModel>();
-            string htmlPath = Path.GetDirectoryName(this.tbxReadPath.Text.Trim());//当前具体站点
             HtmlAP.HtmlDocument htmlDoc = new HtmlAP.HtmlDocument();
             string htmlstr = GetGeneralContent(this.tbxReadPath.Text.Trim());
             htmlDoc.LoadHtml(htmlstr);
@@ -696,7 +701,7 @@ namespace SearchForm
                         string contentPath = node.Attributes["href"].Value + "";
                         if (contentPath.IndexOf("http://") == -1)
                         {
-                            contentPath = htmlPath + "\\" + contentPath;
+                            contentPath = this.tbxContentPath.Text.Trim() + contentPath;
                         }
                         model.NodeType = 1;
                         model.AttrHref = contentPath;
@@ -773,5 +778,7 @@ namespace SearchForm
         #endregion 往全局变量里添加节点
 
         #endregion **************************************公共方法***************************************
+
+
     }
 }
